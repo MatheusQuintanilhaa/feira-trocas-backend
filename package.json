@@ -1,0 +1,44 @@
+{
+  "name": "feira-trocas-backend",
+  "version": "1.0.0",
+  "description": "API REST para plataforma de trocas comunitárias - Promovendo o consumo consciente",
+  "main": "src/app.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon src/app.js",
+    "seed": "node seeds/seed.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MatheusQuintanilhaa/feira-trocas-backend.git"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "prisma",
+    "postgresql",
+    "api",
+    "rest",
+    "trocas",
+    "comunitaria",
+    "sustentabilidade"
+  ],
+  "author": "Matheus Quintanilha <matheus.quintanilha@exemplo.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MatheusQuintanilhaa/feira-trocas-backend/issues"
+  },
+  "homepage": "https://github.com/MatheusQuintanilhaa/feira-trocas-backend#readme",
+  "dependencies": {
+    "@prisma/client": "^6.10.1",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^4.x.x",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "prisma": "^6.10.1"
+  }
+}
