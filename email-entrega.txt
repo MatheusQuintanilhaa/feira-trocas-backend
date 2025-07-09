@@ -1,0 +1,61 @@
+Assunto: Entrega Projeto DFS-2025.2 - Feira de Trocas Comunitaria (Backend) - Matheus Quintanilha
+
+Para: jheyele_xavier@atlantico.com.br; alyne_alves@atlantico.com.br; joeldo_olinda@atlantico.com.br
+
+Prezados Professores,
+
+Venho por meio deste e-mail realizar a entrega do projeto "Feira de Trocas Comunitaria - Backend" desenvolvido como parte do curso Desenvolvimento Full Stack Basico - DFS-2025.2.
+
+INFORMACOES DO PROJETO:
+- Desenvolvedor: Matheus Quintanilha
+- GitHub: https://github.com/MatheusQuintanilhaa/feira-trocas-backend
+- Data de Entrega: 08/07/2025
+
+SOBRE A EXECUCAO INDIVIDUAL:
+
+Gostaria de esclarecer que, conforme ja mencionado em conversa com a professora Alyne, enfrentei algumas dificuldades tecnicas durante o desenvolvimento do projeto. Meu computador apresentou problemas desde quinta-feira passada, o que impactou minha capacidade de colaboracao presencial com o grupo.
+
+Alem disso, encontrei dificuldades de comunicacao com os demais membros da equipe atraves do Discord, onde minhas mensagens sobre o andamento do projeto nem sempre obtinham resposta. Diante dessa situacao, tomei a decisao de desenvolver o projeto de forma individual para garantir a entrega dentro do prazo estabelecido.
+
+FUNCIONALIDADES IMPLEMENTADAS:
+
+O backend foi desenvolvido completamente e atende a todos os requisitos solicitados:
+
+- Sistema de Autenticacao JWT completo
+- CRUD de Usuarios com hash de senhas
+- CRUD de Itens com validacoes robustas
+- Sistema de Propostas com aceite/rejeicao
+- Filtros avancados por categoria e busca por palavras-chave
+- API REST com todos os endpoints documentados
+- Banco de dados PostgreSQL com Prisma ORM
+- Middlewares de autenticacao e autorizacao
+- Documentacao completa no README
+
+TECNOLOGIAS UTILIZADAS:
+- Node.js + Express.js
+- Prisma ORM + PostgreSQL
+- JWT + bcryptjs
+- Middlewares personalizados
+
+REPOSITORIO:
+O codigo fonte completo esta disponivel em: https://github.com/MatheusQuintanilhaa/feira-trocas-backend
+
+O repositorio contem:
+- Codigo fonte organizado e comentado
+- Documentacao tecnica completa
+- Instrucoes de instalacao e uso
+- Estrutura profissional de projeto
+
+OBSERVACOES FINAIS:
+
+Apesar das dificuldades encontradas, consegui implementar todas as funcionalidades solicitadas e entregar um projeto completo e funcional. O backend esta pronto para integracao com o frontend que sera desenvolvido na proxima etapa.
+
+Agradeço a compreensao e fico a disposicao para quaisquer esclarecimentos adicionais.
+
+Atenciosamente,
+
+Matheus Quintanilha
+Aluno do Curso Desenvolvimento Full Stack Basico - DFS-2025.2
+GitHub: @MatheusQuintanilhaa
+E-mail: [COLOQUE_SEU_EMAIL_AQUI]
+Telefone: [COLOQUE_SEU_TELEFONE_AQUI]

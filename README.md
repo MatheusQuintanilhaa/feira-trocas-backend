@@ -12,7 +12,9 @@
 O **Feira de Trocas Comunitária** é uma API REST que permite moradores de uma comunidade trocarem itens em bom estado que não usam mais, como livros, roupas, brinquedos e ferramentas. A aplicação conecta pessoas interessadas em oferecer e receber objetos, promovendo o consumo consciente.
 
 ### 🎯 Objetivo
+
 Desenvolver uma aplicação web que permita:
+
 - Cadastro de itens para troca
 - Visualização de itens disponíveis com filtros
 - Realização de propostas de troca entre usuários
@@ -43,30 +45,34 @@ Desenvolver uma aplicação web que permita:
 ### 📥 Instalação
 
 1. **Clone o repositório:**
+
    ```bash
    git clone git@github.com:MatheusQuintanilhaa/feira-trocas-backend.git
    cd feira-trocas-backend
    ```
 
 2. **Instale as dependências:**
+
    ```bash
    npm install
    ```
 
 3. **Configure as variáveis de ambiente:**
+
    ```bash
    # Copie o arquivo de exemplo
    cp .env.example .env
-   
+
    # Edite o arquivo .env com suas configurações
    nano .env
    ```
 
 4. **Configure o banco de dados:**
+
    ```bash
    # Execute as migrações
    npx prisma migrate dev
-   
+
    # Gere o cliente Prisma
    npx prisma generate
    ```
@@ -84,10 +90,10 @@ Desenvolver uma aplicação web que permita:
 
 ### 🏗️ Entidades do Sistema
 
-| Entidade | Descrição |
-|----------|-----------|
-| **👤 Usuario** | Representa quem utiliza a plataforma |
-| **📦 Item** | Representa os objetos disponibilizados para troca |
+| Entidade        | Descrição                                            |
+| --------------- | ---------------------------------------------------- |
+| **👤 Usuario**  | Representa quem utiliza a plataforma                 |
+| **📦 Item**     | Representa os objetos disponibilizados para troca    |
 | **🤝 Proposta** | Representa uma solicitação de troca entre dois itens |
 
 ### ⚙️ Principais Funcionalidades
@@ -120,15 +126,19 @@ Desenvolver uma aplicação web que permita:
 ### Autenticação
 
 #### Login
+
 - **POST** `/login`
 - **Body:**
+
 ```json
 {
   "email": "usuario@email.com",
   "senha": "minhasenha"
 }
 ```
+
 - **Response:**
+
 ```json
 {
   "id": "uuid",
@@ -142,8 +152,10 @@ Desenvolver uma aplicação web que permita:
 ### Usuários
 
 #### Criar Usuário
+
 - **POST** `/users`
 - **Body:**
+
 ```json
 {
   "nome": "Nome do Usuário",
@@ -154,22 +166,28 @@ Desenvolver uma aplicação web que permita:
 ```
 
 #### Listar Usuários
+
 - **GET** `/users` (requer autenticação)
 
 #### Buscar Usuário por ID
+
 - **GET** `/users/:id` (requer autenticação)
 
 #### Atualizar Usuário
+
 - **PUT** `/users/:id` (requer autenticação)
 
 #### Deletar Usuário
+
 - **DELETE** `/users/:id` (requer autenticação + admin)
 
 ### Itens
 
 #### Criar Item
+
 - **POST** `/items` (requer autenticação)
 - **Body:**
+
 ```json
 {
   "nome": "Bicicleta infantil azul",
@@ -181,6 +199,7 @@ Desenvolver uma aplicação web que permita:
 ```
 
 #### Listar Itens (com filtros)
+
 - **GET** `/items` (requer autenticação)
 - **Query parameters:**
   - `categoria`: Filtrar por categoria específica
@@ -189,31 +208,39 @@ Desenvolver uma aplicação web que permita:
   - `usuarioId`: Filtrar itens de um usuário específico
 
 **Exemplos:**
+
 - `GET /items?categoria=Livros`
 - `GET /items?search=bicicleta`
 - `GET /items?categoria=Roupas&disponivelParaTroca=true`
 
 #### Listar Categorias
+
 - **GET** `/items/categories`
 - **Response:**
+
 ```json
 ["Livros", "Roupas", "Brinquedos", "Eletrônicos"]
 ```
 
 #### Buscar Item por ID
+
 - **GET** `/items/:id` (requer autenticação)
 
 #### Atualizar Item
+
 - **PUT** `/items/:id` (requer autenticação + ser o dono)
 
 #### Deletar Item
+
 - **DELETE** `/items/:id` (requer autenticação + ser o dono ou admin)
 
 ### Propostas
 
 #### Criar Proposta
+
 - **POST** `/proposals` (requer autenticação)
 - **Body:**
+
 ```json
 {
   "itemOfertadoId": "uuid_do_item_que_ofereço",
@@ -222,21 +249,26 @@ Desenvolver uma aplicação web que permita:
 ```
 
 #### Listar Propostas
+
 - **GET** `/proposals` (requer autenticação)
 - **Query parameters:**
   - `status`: pendente/aceita/rejeitada
   - `isMyProposal=true`: Apenas propostas do usuário logado
 
 #### Buscar Proposta por ID
+
 - **GET** `/proposals/:id` (requer autenticação)
 
 #### Aceitar Proposta
+
 - **PUT** `/proposals/:id/accept` (requer autenticação + ser o dono do item desejado)
 
 #### Rejeitar Proposta
+
 - **PUT** `/proposals/:id/reject` (requer autenticação + ser o dono do item desejado)
 
 #### Deletar Proposta
+
 - **DELETE** `/proposals/:id` (requer autenticação + ser o ofertante ou admin)
 
 ## Status Codes
@@ -254,6 +286,7 @@ Desenvolver uma aplicação web que permita:
 ## Autenticação
 
 Todas as rotas protegidas requerem um token JWT no header:
+
 ```
 Authorization: Bearer <token>
 ```
@@ -261,6 +294,7 @@ Authorization: Bearer <token>
 ## Estrutura do Banco de Dados
 
 ### Usuario
+
 - id (UUID, PK)
 - nome (String)
 - email (String, unique)
@@ -269,6 +303,7 @@ Authorization: Bearer <token>
 - createdAt, updatedAt (DateTime)
 
 ### Item
+
 - id (UUID, PK)
 - usuarioId (String, FK)
 - nome (String)
@@ -279,6 +314,7 @@ Authorization: Bearer <token>
 - createdAt, updatedAt (DateTime)
 
 ### Proposta
+
 - id (UUID, PK)
 - itemOfertadoId (String, FK)
 - itemDesejadoId (String, FK)
@@ -292,6 +328,7 @@ Authorization: Bearer <token>
 ## 🧪 Testando a API
 
 ### 🔑 1. Primeiro, crie um usuário:
+
 ```bash
 POST http://localhost:8080/users
 Content-Type: application/json
@@ -304,6 +341,7 @@ Content-Type: application/json
 ```
 
 ### 🔐 2. Faça login para obter o token:
+
 ```bash
 POST http://localhost:8080/login
 Content-Type: application/json
@@ -315,6 +353,7 @@ Content-Type: application/json
 ```
 
 ### 📦 3. Criar um item (use o token no header):
+
 ```bash
 POST http://localhost:8080/items
 Authorization: Bearer SEU_TOKEN_AQUI
@@ -328,6 +367,7 @@ Content-Type: application/json
 ```
 
 ### 🔍 4. Listar itens com filtros:
+
 ```bash
 GET http://localhost:8080/items?categoria=Livros&search=JavaScript
 Authorization: Bearer SEU_TOKEN_AQUI
@@ -337,13 +377,13 @@ Authorization: Bearer SEU_TOKEN_AQUI
 
 ## 📊 Scripts Disponíveis
 
-| Script | Comando | Descrição |
-|--------|---------|-----------|
-| **Desenvolvimento** | `npm start` | Inicia servidor com nodemon |
-| **Prisma Studio** | `npx prisma studio` | Interface visual do banco |
-| **Migrações** | `npx prisma migrate dev` | Executa migrações pendentes |
-| **Gerar Cliente** | `npx prisma generate` | Gera o cliente Prisma |
-| **Reset DB** | `npx prisma migrate reset` | Reseta o banco (cuidado!) |
+| Script              | Comando                    | Descrição                   |
+| ------------------- | -------------------------- | --------------------------- |
+| **Desenvolvimento** | `npm start`                | Inicia servidor com nodemon |
+| **Prisma Studio**   | `npx prisma studio`        | Interface visual do banco   |
+| **Migrações**       | `npx prisma migrate dev`   | Executa migrações pendentes |
+| **Gerar Cliente**   | `npx prisma generate`      | Gera o cliente Prisma       |
+| **Reset DB**        | `npx prisma migrate reset` | Reseta o banco (cuidado!)   |
 
 ---
 
@@ -372,12 +412,15 @@ feira-trocas-backend/
 ## 🎓 Sobre o Projeto
 
 ### 📚 Contexto Acadêmico
+
 Este projeto foi desenvolvido como parte do curso **Desenvolvimento Full Stack Básico - DFS-2025.2**.
 
 ### 🎯 Problema Resolvido
+
 Em muitas comunidades, moradores acumulam itens em bom estado que não usam mais. Esses objetos poderiam ser reaproveitados se trocados entre os próprios vizinhos. Esta API resolve esse problema criando uma plataforma que conecta pessoas interessadas em trocar objetos.
 
 ### �‍💻 Desenvolvedor
+
 - **Desenvolvedor**: Matheus Quintanilha
 - **GitHub**: [@MatheusQuintanilhaa](https://github.com/MatheusQuintanilhaa)
 - **Curso**: Desenvolvimento Full Stack Básico
@@ -398,6 +441,7 @@ Em muitas comunidades, moradores acumulam itens em bom estado que não usam mais
 ## 📞 Suporte
 
 Para dúvidas sobre o projeto, entre em contato:
+
 - 📧 **E-mail**: matheus.quintanilha@exemplo.com
 - 💬 **GitHub Issues**: Para reportar bugs ou sugestões
 
@@ -413,6 +457,6 @@ Este projeto está sob a licença **ISC**.
 
 **🌟 Feira de Trocas Comunitária - Promovendo o consumo consciente! 🌟**
 
-*Desenvolvido com ❤️ por Matheus Quintanilha*
+_Desenvolvido com ❤️ por Matheus Quintanilha_
 
 </div>
