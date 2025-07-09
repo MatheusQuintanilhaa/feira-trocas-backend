@@ -78,6 +78,7 @@ Desenvolver uma aplicação web que permita:
    ```
 
 5. **Inicie o servidor:**
+
    ```bash
    npm start
    ```
@@ -283,51 +284,122 @@ Desenvolver uma aplicação web que permita:
 - **409**: Conflict
 - **500**: Internal Server Error
 
-## Autenticação
+## 🔐 Autenticação JWT
 
 Todas as rotas protegidas requerem um token JWT no header:
 
-```
+```bash
 Authorization: Bearer <token>
 ```
 
-## Estrutura do Banco de Dados
+## 🗄️ Modelo de Dados
 
-### Usuario
+### 📊 Diagrama Entidade-Relacionamento (DER)
 
-- id (UUID, PK)
-- nome (String)
-- email (String, unique)
-- senha (String, hash)
-- isAdmin (Boolean)
-- createdAt, updatedAt (DateTime)
+O diagrama abaixo representa a estrutura do banco de dados e os relacionamentos entre as entidades:
 
-### Item
+![Diagrama Entidade-Relacionamento](image.png)
 
-- id (UUID, PK)
-- usuarioId (String, FK)
-- nome (String)
-- descricao (String, optional)
-- categoria (String)
-- imagemUrl (String, optional)
-- disponivelParaTroca (Boolean)
-- createdAt, updatedAt (DateTime)
+**Representação textual do diagrama:**
 
-### Proposta
+```text
+┌─────────────┐           ┌─────────────┐           ┌─────────────┐
+│   Usuario   │     1:N   │    Itens    │     1:N   │  Proposta   │
+├─────────────┤   ────────┤─────────────┤───────────┤─────────────┤
+│ id (PK)     │           │ id (PK)     │           │ id (PK)     │
+│ nome        │           │ usuarioId   │◄──────────│ itemOfertado│
+│ email       │◄──────────│ nome        │           │ itemDesejado│
+│ senha       │           │ descricao   │           │ ofertanteId │
+│ isAdmin     │           │ categoria   │           │ donoItemId  │
+│ createdAt   │           │ imagemUrl   │           │ status      │
+│ updatedAt   │           │ disponivel  │           │ createdAt   │
+└─────────────┘           │ createdAt   │           │ updatedAt   │
+                          │ updatedAt   │           └─────────────┘
+                          └─────────────┘
+                                 │
+                                 │ 1:N
+                                 ▼
+                          ┌─────────────┐
+                          │  Proposta   │
+                          │ (item desej)│
+                          └─────────────┘
 
-- id (UUID, PK)
-- itemOfertadoId (String, FK)
-- itemDesejadoId (String, FK)
-- ofertanteId (String, FK)
-- donoItemDesejadoId (String, FK)
-- status (String: pendente/aceita/rejeitada)
-- createdAt, updatedAt (DateTime)
+Relacionamentos:
+• Usuario (1) ──► Itens (N)     - Um usuário pode ter vários itens
+• Itens (1) ──► Proposta (N)    - Um item pode estar em várias propostas
+• Proposta ──► Item Ofertado    - Referência ao item oferecido
+• Proposta ──► Item Desejado    - Referência ao item desejado
+```
+
+### 🔗 Explicação dos Relacionamentos
+
+#### **1. Usuario ↔ Item (1:N)**
+
+- **Relacionamento**: Um usuário pode **TER** vários itens
+- **Cardinalidade**: 1 para N (um-para-muitos)
+- **Chave Estrangeira**: `usuarioId` na tabela `Item`
+- **Significado**: Cada item pertence a exatamente um usuário, mas um usuário pode cadastrar múltiplos itens para troca
+
+#### **2. Item ↔ Proposta (1:N) - Item Ofertado**
+
+- **Relacionamento**: Um item pode ser **OFERTADO** em várias propostas
+- **Cardinalidade**: 1 para N
+- **Chave Estrangeira**: `itemOfertadoId` na tabela `Proposta`
+- **Significado**: O mesmo item pode ser oferecido em múltiplas propostas de troca
+
+#### **3. Item ↔ Proposta (1:N) - Item Desejado**
+
+- **Relacionamento**: Um item pode ser **DESEJADO** em várias propostas
+- **Cardinalidade**: 1 para N
+- **Chave Estrangeira**: `itemDesejadoId` na tabela `Proposta`
+- **Significado**: O mesmo item pode ser desejado por diferentes usuários em suas propostas
+
+### 🏗️ Estrutura Detalhada das Entidades
+
+#### **👤 Usuario**
+
+- **id** (UUID, PK) - Identificador único
+- **nome** (String) - Nome completo do usuário
+- **email** (String, unique) - E-mail único para login
+- **senha** (String, hash) - Senha criptografada
+- **isAdmin** (Boolean) - Permissão de administrador
+- **createdAt, updatedAt** (DateTime) - Timestamps
+
+#### **📦 Item**
+
+- **id** (UUID, PK) - Identificador único
+- **usuarioId** (String, FK) - Referência ao proprietário
+- **nome** (String) - Nome do item
+- **descricao** (String, optional) - Descrição detalhada
+- **categoria** (String) - Categoria predefinida
+- **imagemUrl** (String, optional) - URL da imagem
+- **disponivelParaTroca** (Boolean) - Status de disponibilidade
+- **createdAt, updatedAt** (DateTime) - Timestamps
+
+#### **🤝 Proposta**
+
+- **id** (UUID, PK) - Identificador único
+- **itemOfertadoId** (String, FK) - Item que está sendo oferecido
+- **itemDesejadoId** (String, FK) - Item que está sendo solicitado
+- **ofertanteId** (String, FK) - Usuário que fez a proposta
+- **donoItemDesejadoId** (String, FK) - Dono do item desejado
+- **status** (String) - Estado da proposta: `pendente`, `aceita`, `rejeitada`
+- **createdAt, updatedAt** (DateTime) - Timestamps
+
+### 🔄 Fluxo de Negócio
+
+1. **Cadastro**: Usuário se registra na plataforma
+2. **Item**: Usuário cadastra itens que deseja trocar
+3. **Busca**: Usuário navega pelos itens disponíveis
+4. **Proposta**: Usuário propõe troca (oferece seu item por outro)
+5. **Decisão**: Dono do item desejado aceita ou rejeita a proposta
+6. **Finalização**: Itens ficam indisponíveis quando aceitos
 
 ---
 
 ## 🧪 Testando a API
 
-### 🔑 1. Primeiro, crie um usuário:
+### 🔑 1. Primeiro, crie um usuário
 
 ```bash
 POST http://localhost:8080/users
@@ -340,7 +412,7 @@ Content-Type: application/json
 }
 ```
 
-### 🔐 2. Faça login para obter o token:
+### 🔐 2. Faça login para obter o token
 
 ```bash
 POST http://localhost:8080/login
@@ -352,7 +424,7 @@ Content-Type: application/json
 }
 ```
 
-### 📦 3. Criar um item (use o token no header):
+### 📦 3. Criar um item (use o token no header)
 
 ```bash
 POST http://localhost:8080/items
@@ -366,7 +438,7 @@ Content-Type: application/json
 }
 ```
 
-### 🔍 4. Listar itens com filtros:
+### 🔍 4. Listar itens com filtros
 
 ```bash
 GET http://localhost:8080/items?categoria=Livros&search=JavaScript
@@ -389,7 +461,7 @@ Authorization: Bearer SEU_TOKEN_AQUI
 
 ## 📁 Estrutura do Projeto
 
-```
+```javascript
 feira-trocas-backend/
 ├── 📁 src/
 │   ├── 📁 controllers/      # 🧠 Lógica de negócio
@@ -437,26 +509,3 @@ Em muitas comunidades, moradores acumulam itens em bom estado que não usam mais
 - ⏳ **Frontend** - A ser desenvolvido
 
 ---
-
-## 📞 Suporte
-
-Para dúvidas sobre o projeto, entre em contato:
-
-- 📧 **E-mail**: matheus.quintanilha@exemplo.com
-- 💬 **GitHub Issues**: Para reportar bugs ou sugestões
-
----
-
-## 📄 Licença
-
-Este projeto está sob a licença **ISC**.
-
----
-
-<div align="center">
-
-**🌟 Feira de Trocas Comunitária - Promovendo o consumo consciente! 🌟**
-
-_Desenvolvido com ❤️ por Matheus Quintanilha_
-
-</div>
